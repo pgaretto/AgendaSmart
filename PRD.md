@@ -121,3 +121,4 @@ Para verificar objetivamente la métrica del 90% de acierto, se utilizará un co
 3. *"El martes que viene tengo dentista a las 4 de la tarde y me cobra 25 mil"* $\rightarrow$ Gasto: \$25.000 | Categoría: Salud | Evento: Dentista (Próximo martes 16:00 hs)
 4. *"Mañana almuerzo con mamá y gasto 15000"* $\rightarrow$ Gasto: \$15.000 | Categoría: Comida | Evento: Almuerzo con mamá (Mañana)
 5. *"Cargué la SUBE con 5000"* $\rightarrow$ Gasto: \$5.000 | Categoría: Transporte | Evento: N/A
+6. *"Asado con los de Futbol, 30 lucas"* $\rightarrow$ Gasto: \$30.000 | Categoría: Comida | Evento: Asado con los de Futbol
