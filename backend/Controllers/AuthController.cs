@@ -9,10 +9,12 @@ namespace SmartAgenda.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, IJwtTokenGenerator jwtTokenGenerator)
     {
         _authService = authService;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
     [HttpPost("register")]
@@ -26,5 +28,18 @@ public class AuthController : ControllerBase
 
         var response = new UserResponse { Id = user.Id, Email = user.Email };
         return StatusCode(StatusCodes.Status201Created, response);
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult<LoginResponse>> Login(LoginRequest request)
+    {
+        var user = await _authService.ValidateCredentialsAsync(request.Email, request.Password);
+        if (user is null)
+        {
+            return Unauthorized(new { message = "Email o contraseña incorrectos." });
+        }
+
+        var token = _jwtTokenGenerator.GenerateToken(user);
+        return Ok(new LoginResponse { Token = token });
     }
 }

@@ -32,4 +32,15 @@ public class AuthService : IAuthService
 
         return user;
     }
+
+    public async Task<User?> ValidateCredentialsAsync(string email, string password)
+    {
+        var user = await _db.Users.SingleOrDefaultAsync(u => u.Email == email);
+        if (user is null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+        {
+            return null;
+        }
+
+        return user;
+    }
 }
