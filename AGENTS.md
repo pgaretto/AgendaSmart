@@ -6,7 +6,7 @@ Smart-Agenda es un calendario que registra gastos automáticamente a partir de u
 
 ## Stack
 
-- Frontend: React + Vite, Node 20 LTS
+- Frontend: React + Vite, Node 24 LTS
 - Backend: ASP.NET, .NET 10
 - Base de datos: SQL Server
 - IA: Anthropic, modelo Claude Haiku (RF-03)
