@@ -42,7 +42,6 @@ main.wide {
 
 .calendar-header h2 {
   margin: 0;
-  text-transform: capitalize;
   font-size: 1.1rem;
 }
 
@@ -147,7 +146,6 @@ main.wide {
 .budget h2 {
   margin: 0 0 8px;
   font-size: 1.1rem;
-  text-transform: capitalize;
 }
 
 .budget-summary {
@@ -174,4 +172,20 @@ main.wide {
 .budget-actions {
   display: flex;
   gap: 8px;
+}
+
+/* RNF-02: títulos o montos largos no deben ensanchar la pantalla */
+.calendar-events li,
+.calendar-week h3,
+.budget-summary dd {
+  overflow-wrap: anywhere;
+}
+
+.calendar-week > li {
+  min-width: 0;
+}
+
+.calendar-header h2::first-letter,
+.budget h2::first-letter {
+  text-transform: uppercase;
 }
