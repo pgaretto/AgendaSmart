@@ -13,3 +13,19 @@ body {
   margin: 0;
   min-height: 100svh;
 }
+
+main {
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+form {
+  display: grid;
+  gap: 12px;
+}
+
+label {
+  display: grid;
+  gap: 4px;
+}

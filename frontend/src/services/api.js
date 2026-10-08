@@ -1,23 +1,29 @@
+import { tokenStorage } from './tokenStorage'
+
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5222'
 
 async function request(path, options = {}) {
+  const token = tokenStorage.get()
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
-    ...options,
   })
 
+  const isJson = response.headers.get('content-type')?.includes('application/json')
+  const body = isJson ? await response.json() : null
+
   if (!response.ok) {
-    throw new Error(`Error ${response.status} al llamar a ${path}`)
+    const error = new Error(body?.message ?? `Error ${response.status} al llamar a ${path}`)
+    error.status = response.status
+    throw error
   }
 
-  if (response.status === 204) {
-    return null
-  }
-
-  return response.json()
+  return body
 }
 
 export const api = {
