@@ -136,3 +136,42 @@ main.wide {
   margin: 0;
   opacity: 0.6;
 }
+
+.budget {
+  margin-bottom: 24px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 6px;
+}
+
+.budget h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
+.budget-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.budget-summary dt {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.budget-summary dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.budget-summary .is-negative {
+  color: crimson;
+}
+
+.budget-actions {
+  display: flex;
+  gap: 8px;
+}

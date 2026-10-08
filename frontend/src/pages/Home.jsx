@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import BudgetPanel from '../components/BudgetPanel'
 import Calendar from '../components/Calendar'
 import { api } from '../services/api'
 
@@ -26,6 +27,7 @@ function Home() {
       <h1>Smart-Agenda</h1>
       <p>Calendario y gastos en una sola pantalla.</p>
       {email && <p>Sesión iniciada como {email}</p>}
+      <BudgetPanel />
       <Calendar />
       <button type="button" onClick={handleLogout}>
         Cerrar sesión
