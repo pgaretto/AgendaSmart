@@ -9,7 +9,7 @@ export const MAX_ATTEMPTS = 5
 export const BASE_DELAY_MS = 1000
 
 // kind: 'text' (frase pendiente de interpretar) | 'entry' (evento/gasto ya confirmado, pendiente de guardar)
-// error: 'sesion' (pausado: la sesión venció, sigue al volver a iniciar sesión) | 'sin-conexion' | código HTTP
+// error: 'limite' (demasiadas consultas) | 'sesion' (pausado: la sesión venció, sigue al volver a iniciar sesión) | 'sin-conexion' | código HTTP
 // status: 'queued' | 'ready' (frase interpretada, falta que el usuario la confirme) | 'manual'
 export const outboxKey = (userId) => `smart-agenda:outbox:${userId}`
 
@@ -56,6 +56,7 @@ export const backoffDelay = (attempt) => BASE_DELAY_MS * 2 ** (attempt - 1)
  */
 export async function retryItem(item, { send, wait, onProgress = () => {}, maxAttempts = MAX_ATTEMPTS }) {
   let current = { ...item, status: 'queued', error: undefined }
+  let lastError = 'sin-conexion'
 
   while (current.attempts < maxAttempts) {
     current = { ...current, attempts: current.attempts + 1 }
@@ -70,13 +71,18 @@ export async function retryItem(item, { send, wait, onProgress = () => {}, maxAt
         // Sesión vencida: no cuenta como intento fallido; queda en pausa hasta volver a iniciar sesión.
         return { ...current, attempts: current.attempts - 1, status: 'queued', error: 'sesion' }
       }
-      if (!error.isNetwork) {
+      // Sin red o límite de uso (429): se reintenta más tarde, respetando el Retry-After si lo informa.
+      const limited = error.status === 429
+      if (!error.isNetwork && !limited) {
         return { ...current, status: 'manual', error: error.status ?? 'rechazado' }
       }
+      lastError = limited ? 'limite' : 'sin-conexion'
       onProgress(current)
-      if (current.attempts < maxAttempts) await wait(backoffDelay(current.attempts))
+      if (current.attempts < maxAttempts) {
+        await wait(Math.max(backoffDelay(current.attempts), (error.retryAfter ?? 0) * 1000))
+      }
     }
   }
 
-  return { ...current, status: 'manual', error: 'sin-conexion' }
+  return { ...current, status: 'manual', error: lastError }
 }

@@ -30,6 +30,8 @@ function EntryInput({ onSaved, enqueue }) {
         // Sin señal o sesión vencida: la frase queda guardada y se envía sola al poder (RNF-04).
         enqueue('text', request)
         setText('')
+      } else if (err.status === 429) {
+        setError('Hiciste demasiadas consultas seguidas. Esperá unos segundos y probá de nuevo.')
       } else {
         setError('No se pudo interpretar el texto. Probá de nuevo.')
       }

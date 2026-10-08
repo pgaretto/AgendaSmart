@@ -52,6 +52,26 @@ describe('retryItem', () => {
     expect(result).toMatchObject({ status: 'queued', error: 'sesion', attempts: 2 })
   })
 
+  it('ante un 429 espera lo que pide Retry-After y reintenta', async () => {
+    const w = vi.fn(async () => {})
+    const limited = Object.assign(new Error('429'), { status: 429, retryAfter: 10 })
+    const send = vi.fn().mockRejectedValueOnce(limited).mockResolvedValue({})
+
+    const result = await retryItem(createItem('entry', {}), { send, wait: w })
+
+    expect(w).toHaveBeenCalledWith(10000)
+    expect(result.status).toBe('done')
+  })
+
+  it('si el límite persiste tras 5 intentos queda manual con motivo "limite"', async () => {
+    const send = vi.fn().mockRejectedValue(Object.assign(new Error('429'), { status: 429 }))
+
+    const result = await retryItem(createItem('entry', {}), { send, wait })
+
+    expect(send).toHaveBeenCalledTimes(MAX_ATTEMPTS)
+    expect(result).toMatchObject({ status: 'manual', error: 'limite' })
+  })
+
   it('espera con backoff exponencial entre intentos y no espera tras el último', async () => {
     const w = vi.fn(async () => {})
 

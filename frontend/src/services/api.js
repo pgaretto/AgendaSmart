@@ -38,6 +38,7 @@ async function request(path, options = {}) {
   if (!response.ok) {
     const error = new Error(body?.message ?? `Error ${response.status} al llamar a ${path}`)
     error.status = response.status
+    error.retryAfter = Number(response.headers.get('Retry-After')) || null
     throw error
   }
 

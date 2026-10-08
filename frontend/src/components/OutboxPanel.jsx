@@ -13,9 +13,9 @@ function describe(item) {
 function statusText(item, online) {
   if (item.status === 'ready') return 'Ya la interpreté. Revisala y confirmala para guardarla.'
   if (item.status === 'manual') {
-    return item.error === 'sin-conexion'
-      ? `No se pudo enviar tras ${MAX_ATTEMPTS} intentos sin conexión.`
-      : 'El servidor no aceptó este envío.'
+    if (item.error === 'sin-conexion') return `No se pudo enviar tras ${MAX_ATTEMPTS} intentos sin conexión.`
+    if (item.error === 'limite') return `No se pudo enviar tras ${MAX_ATTEMPTS} intentos: demasiadas consultas seguidas.`
+    return 'El servidor no aceptó este envío.'
   }
   if (!online) return 'Sin conexión: se reintentará solo cuando vuelva la señal.'
   return `Reintentando… (${item.attempts}/${MAX_ATTEMPTS})`
