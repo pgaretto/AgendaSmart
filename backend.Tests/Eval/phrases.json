@@ -303,5 +303,15 @@
   "text": "Recordatorio: llamar al plomero mañana a las 8",
   "amount": null,
   "category": null
+ },
+ {
+  "text": "El finde me voy a Mar del Plata, nafta 40 lucas",
+  "amount": 40000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Asado con los de Futbol, 30 lucas",
+  "amount": 30000,
+  "category": "Comida"
  }
 ]
