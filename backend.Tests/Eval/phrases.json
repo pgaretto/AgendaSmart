@@ -1,0 +1,307 @@
+[
+ {
+  "text": "Me tomé un café 2500",
+  "amount": 2500,
+  "category": "Comida"
+ },
+ {
+  "text": "Cargué la SUBE con 5000",
+  "amount": 5000,
+  "category": "Transporte"
+ },
+ {
+  "text": "El martes que viene tengo dentista a las 4 de la tarde y me cobra 25 mil",
+  "amount": 25000,
+  "category": "Salud"
+ },
+ {
+  "text": "mañana almuerzo con mamá y gasto 15000",
+  "amount": 15000,
+  "category": "Comida"
+ },
+ {
+  "text": "Compré el pasaje de micro a Rosario 12 lucas",
+  "amount": 12000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Fui al super y gasté 48500",
+  "amount": 48500,
+  "category": "Comida"
+ },
+ {
+  "text": "Pedí delivery de sushi, 22 mil",
+  "amount": 22000,
+  "category": "Comida"
+ },
+ {
+  "text": "Me cobraron 8000 en la farmacia",
+  "amount": 8000,
+  "category": "Salud"
+ },
+ {
+  "text": "Pagué la consulta con el psicólogo 30 mil",
+  "amount": 30000,
+  "category": "Salud"
+ },
+ {
+  "text": "Cargué nafta por 40 lucas",
+  "amount": 40000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Viernes cine con Sofi, las entradas me salieron 9000",
+  "amount": 9000,
+  "category": "Salidas"
+ },
+ {
+  "text": "Sábado salgo a bailar, entrada 6 lucas",
+  "amount": 6000,
+  "category": "Salidas"
+ },
+ {
+  "text": "Anoche cervezas con los chicos, puse 10 mil",
+  "amount": 10000,
+  "category": "Salidas"
+ },
+ {
+  "text": "Gasté 3500 en un Uber",
+  "amount": 3500,
+  "category": "Transporte"
+ },
+ {
+  "text": "Taxi al aeropuerto 18000",
+  "amount": 18000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Compré un medicamento por 4200",
+  "amount": 4200,
+  "category": "Salud"
+ },
+ {
+  "text": "Almorcé un menú ejecutivo, 7500",
+  "amount": 7500,
+  "category": "Comida"
+ },
+ {
+  "text": "Me pedí una pizza 14 mil",
+  "amount": 14000,
+  "category": "Comida"
+ },
+ {
+  "text": "Pagué el estacionamiento 2000",
+  "amount": 2000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Cargué la SUBE con 10 lucas",
+  "amount": 10000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Pagué el peaje 1800",
+  "amount": 1800,
+  "category": "Transporte"
+ },
+ {
+  "text": "Fui a la verdulería y gasté 6300",
+  "amount": 6300,
+  "category": "Comida"
+ },
+ {
+  "text": "Desayuno en el bar: dos medialunas y un cortado, 4800",
+  "amount": 4800,
+  "category": "Comida"
+ },
+ {
+  "text": "Compré anteojos nuevos en la óptica por 85 mil",
+  "amount": 85000,
+  "category": "Salud"
+ },
+ {
+  "text": "Hoy me hice un estudio de sangre, 15 mil",
+  "amount": 15000,
+  "category": "Salud"
+ },
+ {
+  "text": "Pagué la mensualidad del gimnasio 20000",
+  "amount": 20000,
+  "category": "Otros"
+ },
+ {
+  "text": "Pagué el alquiler, 350 mil",
+  "amount": 350000,
+  "category": "Otros"
+ },
+ {
+  "text": "Me llegó la factura de la luz: 27500",
+  "amount": 27500,
+  "category": "Otros"
+ },
+ {
+  "text": "Pagué internet 18 mil",
+  "amount": 18000,
+  "category": "Otros"
+ },
+ {
+  "text": "Compré un regalo de cumpleaños para papá por 12000",
+  "amount": 12000,
+  "category": "Otros"
+ },
+ {
+  "text": "Me corté el pelo, 9000",
+  "amount": 9000,
+  "category": "Otros"
+ },
+ {
+  "text": "Compré una remera por 15 mil",
+  "amount": 15000,
+  "category": "Otros"
+ },
+ {
+  "text": "Pagué las expensas 65 mil",
+  "amount": 65000,
+  "category": "Otros"
+ },
+ {
+  "text": "Renové Netflix, 7000",
+  "amount": 7000,
+  "category": "Otros"
+ },
+ {
+  "text": "Mañana a las 9 reunión de laburo y gasto 3 lucas en un café",
+  "amount": 3000,
+  "category": "Comida"
+ },
+ {
+  "text": "El jueves tengo turno con el cardiólogo a las 11, la consulta sale 40 mil",
+  "amount": 40000,
+  "category": "Salud"
+ },
+ {
+  "text": "Pasado mañana cena con Juli a las 21, calculo 25 mil",
+  "amount": 25000,
+  "category": "Comida"
+ },
+ {
+  "text": "El domingo vamos al recital, la entrada 35 mil",
+  "amount": 35000,
+  "category": "Salidas"
+ },
+ {
+  "text": "Mañana viajo en bondi a las 8, el boleto 700",
+  "amount": 700,
+  "category": "Transporte"
+ },
+ {
+  "text": "Me tomé un taxi 5 lucas",
+  "amount": 5000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Gasté una luca en caramelos",
+  "amount": 1000,
+  "category": "Comida"
+ },
+ {
+  "text": "Compré facturas para la merienda, 3200",
+  "amount": 3200,
+  "category": "Comida"
+ },
+ {
+  "text": "Pagué 2 lucas y media de estacionamiento",
+  "amount": 2500,
+  "category": "Transporte"
+ },
+ {
+  "text": "Fui al kiosco, gasté 1500",
+  "amount": 1500,
+  "category": "Comida"
+ },
+ {
+  "text": "Hoy gasté $1.500 en un café",
+  "amount": 1500,
+  "category": "Comida"
+ },
+ {
+  "text": "Pagué 12.500 pesos de pasaje",
+  "amount": 12500,
+  "category": "Transporte"
+ },
+ {
+  "text": "Salimos a tomar algo, pagué 16 mil",
+  "amount": 16000,
+  "category": "Salidas"
+ },
+ {
+  "text": "Boliche el sábado, la entrada con consumición 20 mil",
+  "amount": 20000,
+  "category": "Salidas"
+ },
+ {
+  "text": "Me salió 50 mil la limpieza dental",
+  "amount": 50000,
+  "category": "Salud"
+ },
+ {
+  "text": "Compré un jarabe para la tos por 5500",
+  "amount": 5500,
+  "category": "Salud"
+ },
+ {
+  "text": "Tomé el tren, el pasaje 900",
+  "amount": 900,
+  "category": "Transporte"
+ },
+ {
+  "text": "Hice las compras del mes en el súper, 120 mil",
+  "amount": 120000,
+  "category": "Comida"
+ },
+ {
+  "text": "Me pedí un helado, 3 mil",
+  "amount": 3000,
+  "category": "Comida"
+ },
+ {
+  "text": "Fui al teatro con mamá, las entradas 28 mil",
+  "amount": 28000,
+  "category": "Salidas"
+ },
+ {
+  "text": "Pagué la cuota del celular 11 mil",
+  "amount": 11000,
+  "category": "Otros"
+ },
+ {
+  "text": "Cargué combustible: 55 lucas",
+  "amount": 55000,
+  "category": "Transporte"
+ },
+ {
+  "text": "Compré una birra en el kiosco 2200",
+  "amount": 2200,
+  "category": "Comida"
+ },
+ {
+  "text": "El lunes tengo reunión con el contador a las 15",
+  "amount": null,
+  "category": null
+ },
+ {
+  "text": "Mañana cumple de Sofi a las 20",
+  "amount": null,
+  "category": null
+ },
+ {
+  "text": "El viernes a las 10 turno en el registro civil",
+  "amount": null,
+  "category": null
+ },
+ {
+  "text": "Recordatorio: llamar al plomero mañana a las 8",
+  "amount": null,
+  "category": null
+ }
+]

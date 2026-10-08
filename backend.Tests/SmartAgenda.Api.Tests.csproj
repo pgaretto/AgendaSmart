@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <None Update="Eval\phrases.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
