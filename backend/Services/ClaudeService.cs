@@ -45,8 +45,8 @@ public class ClaudeService : IClaudeService
         return new AnthropicClient
         {
             ApiKey = apiKey,
-            Timeout = TimeSpan.FromSeconds(section.GetValue("TimeoutSeconds", 10)),
-            MaxRetries = section.GetValue("MaxRetries", 1),
+            Timeout = TimeSpan.FromSeconds(section.GetValue("TimeoutSeconds", 4)),
+            MaxRetries = section.GetValue("MaxRetries", 0),
         };
     }
 }
