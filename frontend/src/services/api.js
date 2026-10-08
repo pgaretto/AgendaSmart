@@ -5,14 +5,22 @@ const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5222'
 async function request(path, options = {}) {
   const token = tokenStorage.get()
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  })
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    })
+  } catch (cause) {
+    // fetch solo rechaza por fallas de red (sin señal, servidor inalcanzable), no por códigos HTTP.
+    const error = new Error('Sin conexión con el servidor.', { cause })
+    error.isNetwork = true
+    throw error
+  }
 
   const isJson = response.headers.get('content-type')?.includes('application/json')
   const body = isJson ? await response.json() : null

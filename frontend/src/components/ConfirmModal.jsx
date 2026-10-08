@@ -10,7 +10,7 @@ import {
 
 const CATEGORIES = ['Comida', 'Transporte', 'Salidas', 'Salud', 'Otros']
 
-function ConfirmModal({ proposal, onClose, onSaved }) {
+function ConfirmModal({ proposal, onClose, onSaved, onNetworkError }) {
   const dialogRef = useRef(null)
 
   const [event, setEvent] = useState(() =>
@@ -46,13 +46,18 @@ function ConfirmModal({ proposal, onClose, onSaved }) {
 
     setSaving(true)
     setError(null)
+    const payload = {
+      event: event && { title: event.title.trim(), startsAt: fromDateTimeInput(event.startsAt) },
+      expense: expense && { amount, category: expense.category, date: fromDateInput(expense.date) },
+    }
     try {
-      await api.post('/api/entries', {
-        event: event && { title: event.title.trim(), startsAt: fromDateTimeInput(event.startsAt) },
-        expense: expense && { amount, category: expense.category, date: fromDateInput(expense.date) },
-      })
+      await api.post('/api/entries', payload)
       onSaved()
-    } catch {
+    } catch (err) {
+      if (err.isNetwork && onNetworkError) {
+        onNetworkError(payload)
+        return
+      }
       setError('No se pudo guardar. Probá de nuevo.')
       setSaving(false)
     }

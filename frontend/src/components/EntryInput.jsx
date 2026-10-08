@@ -3,7 +3,7 @@ import { api } from '../services/api'
 import { toLocalNowIso } from '../utils/calendar'
 import ConfirmModal from './ConfirmModal'
 
-function EntryInput({ onSaved }) {
+function EntryInput({ onSaved, enqueue }) {
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -16,15 +16,22 @@ function EntryInput({ onSaved }) {
 
     setLoading(true)
     setError(null)
+    const request = { text: trimmed, clientNow: toLocalNowIso() }
     try {
-      const result = await api.post('/api/parse', { text: trimmed, clientNow: toLocalNowIso() })
+      const result = await api.post('/api/parse', request)
       if (!result.event && !result.expense) {
         setError('No encontré ningún evento ni gasto en esa frase. Probá con más detalle.')
       } else {
         setProposal(result)
       }
-    } catch {
-      setError('No se pudo interpretar el texto. Probá de nuevo.')
+    } catch (err) {
+      if (err.isNetwork) {
+        // Sin señal: la frase queda guardada y se envía sola al volver la conexión (RNF-04).
+        enqueue('text', request)
+        setText('')
+      } else {
+        setError('No se pudo interpretar el texto. Probá de nuevo.')
+      }
     } finally {
       setLoading(false)
     }
@@ -56,7 +63,18 @@ function EntryInput({ onSaved }) {
       </form>
       {error && <p role="alert">{error}</p>}
 
-      {proposal && <ConfirmModal proposal={proposal} onClose={() => setProposal(null)} onSaved={handleSaved} />}
+      {proposal && (
+        <ConfirmModal
+          proposal={proposal}
+          onClose={() => setProposal(null)}
+          onSaved={handleSaved}
+          onNetworkError={(payload) => {
+            enqueue('entry', payload)
+            setProposal(null)
+            setText('')
+          }}
+        />
+      )}
     </section>
   )
 }

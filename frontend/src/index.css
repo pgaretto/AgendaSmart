@@ -239,3 +239,39 @@ main.wide {
   display: flex;
   gap: 8px;
 }
+
+.outbox {
+  margin-bottom: 24px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 6px;
+}
+
+.outbox h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.outbox ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.outbox li {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.outbox li[role='alert'] strong {
+  color: crimson;
+}
+
+.outbox-actions {
+  display: flex;
+  gap: 8px;
+}

@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import BudgetPanel from '../components/BudgetPanel'
 import Calendar from '../components/Calendar'
 import EntryInput from '../components/EntryInput'
+import OutboxPanel from '../components/OutboxPanel'
+import { useOutbox } from '../hooks/useOutbox'
 import { api } from '../services/api'
 
 function Home() {
@@ -12,6 +14,8 @@ function Home() {
   const [email, setEmail] = useState(null)
   // Se incrementa al guardar para que el calendario y el presupuesto se vuelvan a cargar.
   const [refreshKey, setRefreshKey] = useState(0)
+  const refresh = () => setRefreshKey((k) => k + 1)
+  const outbox = useOutbox({ onEntrySaved: refresh })
 
   useEffect(() => {
     api
@@ -30,7 +34,8 @@ function Home() {
       <h1>Smart-Agenda</h1>
       <p>Calendario y gastos en una sola pantalla.</p>
       {email && <p>Sesión iniciada como {email}</p>}
-      <EntryInput onSaved={() => setRefreshKey((k) => k + 1)} />
+      <EntryInput onSaved={refresh} enqueue={outbox.enqueue} />
+      <OutboxPanel outbox={outbox} onEntrySaved={refresh} />
       <BudgetPanel refreshKey={refreshKey} />
       <Calendar refreshKey={refreshKey} />
       <button type="button" onClick={handleLogout}>
