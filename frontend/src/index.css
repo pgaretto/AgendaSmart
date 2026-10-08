@@ -96,3 +96,43 @@ main.wide {
 .calendar-events {
   padding-left: 18px;
 }
+
+.calendar-toggle {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.calendar-toggle button[aria-pressed='true'] {
+  background: Highlight;
+  color: HighlightText;
+}
+
+.calendar-week {
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.calendar-week > li {
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 6px;
+}
+
+.calendar-week > li.is-today {
+  border-color: currentColor;
+}
+
+.calendar-week h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+}
+
+.calendar-empty {
+  margin: 0;
+  opacity: 0.6;
+}

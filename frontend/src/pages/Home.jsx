@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import MonthCalendar from '../components/MonthCalendar'
+import Calendar from '../components/Calendar'
 import { api } from '../services/api'
 
 function Home() {
@@ -26,7 +26,7 @@ function Home() {
       <h1>Smart-Agenda</h1>
       <p>Calendario y gastos en una sola pantalla.</p>
       {email && <p>Sesión iniciada como {email}</p>}
-      <MonthCalendar />
+      <Calendar />
       <button type="button" onClick={handleLogout}>
         Cerrar sesión
       </button>

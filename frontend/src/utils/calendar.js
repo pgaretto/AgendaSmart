@@ -19,3 +19,19 @@ export function getMonthGrid(year, month) {
     Array.from({ length: 7 }, (_, d) => new Date(start.getFullYear(), start.getMonth(), start.getDate() + w * 7 + d)),
   )
 }
+
+// Semana (lunes a domingo) que contiene a la fecha dada.
+export function getWeek(date) {
+  const offset = (date.getDay() + 6) % 7
+  return Array.from(
+    { length: 7 },
+    (_, d) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - offset + d),
+  )
+}
+
+export const addDays = (date, n) => new Date(date.getFullYear(), date.getMonth(), date.getDate() + n)
+
+export const parseDateKey = (key) => {
+  const [y, m, d] = key.split('-').map(Number)
+  return new Date(y, m - 1, d)
+}
