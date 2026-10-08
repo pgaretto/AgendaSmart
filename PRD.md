@@ -158,9 +158,9 @@ Por otro lado, la gente sí usa el calendario del celular para organizarse. El p
 
 ## Apéndice: Dataset de Evaluación de IA (Benchmark para el 90% de Acierto)
 
-> **Pendiente:** RNF-06 exige un dataset de validación de **al menos 50 frases**. Las 6 frases listadas abajo son la muestra semilla original; las 44 restantes todavía no están redactadas y quedan como trabajo pendiente (no se inventan acá para no falsear el benchmark).
+> **Dataset completo:** RNF-06 exige al menos 50 frases. El dataset vigente tiene 63 y vive en `backend.Tests/Eval/phrases.json` (incluye las 6 frases semilla de abajo, más 4 frases solo de evento donde no debe extraerse gasto). Se corre con `ANTHROPIC_EVAL_KEY` definida: `dotnet test --filter ExtractionAccuracyEval`. Última medición: 98,4% (62/63).
 
-Para verificar objetivamente la métrica del 90% de acierto (criterio de acierto: **monto y categoría del gasto exactos**, según RNF-06), se utilizará un conjunto de frases de prueba en lenguaje coloquial para validar la extracción de datos. Muestra semilla inicial:
+Para verificar objetivamente la métrica del 90% de acierto (criterio de acierto: **monto y categoría del gasto exactos**, según RNF-06), se utiliza un conjunto de frases de prueba en lenguaje coloquial para validar la extracción de datos. Muestra semilla inicial:
 
 1. *"Me tomé un café 2500"* $\rightarrow$ Gasto: \$2.500 | Categoría: Comida | Evento: N/A
 2. *"El finde me voy a Mar del Plata, nafta 40 lucas"* $\rightarrow$ Gasto: \$40.000 | Categoría: Transporte | Evento: Viaje a Mar del Plata (Fin de semana)

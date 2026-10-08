@@ -9,7 +9,7 @@ Smart-Agenda es un calendario que registra gastos automáticamente a partir de u
 - Frontend: React + Vite, Node 24 LTS
 - Backend: ASP.NET, .NET 10
 - Base de datos: SQL Server
-- IA: Anthropic, modelo Claude Haiku (RF-03)
+- IA: Anthropic, modelo Claude Haiku (RF-05, RF-06)
 
 ## Cómo correr
 
@@ -30,4 +30,4 @@ dotnet test
 ## Qué NO hacer
 
 - No agregar soporte multi-moneda ni entrada por voz/audio en esta versión — fuera de alcance v1.
-- No guardar eventos ni gastos sin pasar por el modal de confirmación obligatorio (RF-04), ni debilitar el aislamiento de datos entre usuarios (RNF-03): un usuario nunca puede ver ni modificar los datos de otro.
+- No guardar eventos ni gastos sin pasar por el modal de confirmación obligatorio (RF-07), ni debilitar el aislamiento de datos entre usuarios (RNF-03): un usuario nunca puede ver ni modificar los datos de otro.
