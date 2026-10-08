@@ -189,3 +189,53 @@ main.wide {
 .budget h2::first-letter {
   text-transform: uppercase;
 }
+
+.entry {
+  margin-bottom: 24px;
+}
+
+.entry form {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.entry input {
+  width: 100%;
+}
+
+.confirm-modal {
+  width: min(92vw, 420px);
+  max-height: 90svh;
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+  border-radius: 8px;
+}
+
+.confirm-modal::backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+
+.confirm-modal h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.confirm-modal fieldset {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 6px;
+}
+
+.confirm-modal input,
+.confirm-modal select {
+  width: 100%;
+  min-width: 0;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 8px;
+}

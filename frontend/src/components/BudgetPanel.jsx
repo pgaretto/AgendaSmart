@@ -3,7 +3,7 @@ import { api } from '../services/api'
 
 const currency = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 })
 
-function BudgetPanel() {
+function BudgetPanel({ refreshKey = 0 }) {
   const now = new Date()
   const year = now.getFullYear()
   const month = now.getMonth() + 1
@@ -31,7 +31,7 @@ function BudgetPanel() {
     return () => {
       cancelled = true
     }
-  }, [year, month])
+  }, [year, month, refreshKey])
 
   const startEditing = () => {
     setAmount(budget ? String(budget.amount) : '')

@@ -35,3 +35,16 @@ export const parseDateKey = (key) => {
   const [y, m, d] = key.split('-').map(Number)
   return new Date(y, m - 1, d)
 }
+
+// Valor para <input type="datetime-local"> (yyyy-MM-ddTHH:mm) a partir de un string del backend.
+export const toDateTimeInput = (iso) => iso.slice(0, 16)
+
+// Valor para <input type="date"> (yyyy-MM-dd) a partir de un string del backend.
+export const toDateInput = (iso) => iso.slice(0, 10)
+
+// De los inputs del navegador al DateTime sin zona que espera el backend.
+export const fromDateTimeInput = (value) => `${value}:00`
+export const fromDateInput = (value) => `${value}T00:00:00`
+
+// Fecha-hora local actual sin zona horaria (para que la IA resuelva "mañana", "el martes", etc.).
+export const toLocalNowIso = (date = new Date()) => `${toDateKey(date)}T${pad(date.getHours())}:${pad(date.getMinutes())}:00`

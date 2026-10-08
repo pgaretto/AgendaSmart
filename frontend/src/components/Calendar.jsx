@@ -9,7 +9,7 @@ const formatTime = (date) =>
 
 const formatShort = (date) => date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
 
-function Calendar() {
+function Calendar({ refreshKey = 0 }) {
   const today = new Date()
   const [view, setView] = useState('month')
   const [selected, setSelected] = useState(toDateKey(today))
@@ -44,7 +44,7 @@ function Calendar() {
     return () => {
       cancelled = true
     }
-  }, [weeks])
+  }, [weeks, refreshKey])
 
   const eventsByDay = useMemo(() => {
     const map = new Map()
