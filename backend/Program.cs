@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using System.Text;
+using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -53,8 +55,38 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(allowedOrigins)
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .WithExposedHeaders("Retry-After");
     });
+});
+
+// Cada llamada a /api/parse cuesta plata (Claude): se limita por usuario para acotar el gasto.
+const string AiRateLimitPolicy = "ai";
+var aiPermitsPerMinute = builder.Configuration.GetValue("RateLimit:AiPermitPerMinute", 10);
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy(AiRateLimitPolicy, context =>
+    {
+        var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var partition = userId is not null ? $"user:{userId}" : $"ip:{context.Connection.RemoteIpAddress}";
+
+        return RateLimitPartition.GetSlidingWindowLimiter(partition, _ => new SlidingWindowRateLimiterOptions
+        {
+            PermitLimit = aiPermitsPerMinute,
+            Window = TimeSpan.FromMinutes(1),
+            SegmentsPerWindow = 6,
+            QueueLimit = 0,
+        });
+    });
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        // Con ventana deslizante el limiter no informa cuánto falta; se avisa la ventana de un segmento.
+        context.HttpContext.Response.Headers.RetryAfter = "10";
+        await context.HttpContext.Response.WriteAsync(
+            "Hiciste demasiadas consultas seguidas. Esperá unos segundos y probá de nuevo.", cancellationToken);
+    };
 });
 
 var app = builder.Build();
@@ -67,6 +99,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(FrontendCorsPolicy);
 app.UseAuthentication();
+app.UseRateLimiter();
 app.UseAuthorization();
 
 app.MapControllers();

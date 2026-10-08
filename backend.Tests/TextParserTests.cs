@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SmartAgenda.Api.Models;
@@ -167,5 +168,73 @@ public class ParseEndpointTests : IClassFixture<ApiFactory>
         var response = await client.PostAsJsonAsync("/api/parse", new { text = "algo" });
 
         Assert.Equal(HttpStatusCode.BadGateway, response.StatusCode);
+    }
+}
+
+public class ParseRateLimitTests : IClassFixture<ApiFactory>
+{
+    private readonly ApiFactory _factory;
+
+    public ParseRateLimitTests(ApiFactory factory) => _factory = factory;
+
+    private WebApplicationFactory<Program> Limited(int permits) => _factory.WithWebHostBuilder(b =>
+    {
+        b.UseSetting("RateLimit:AiPermitPerMinute", permits.ToString());
+        b.ConfigureServices(s => s.Replace(ServiceDescriptor.Singleton<IClaudeService>(
+            new FakeClaudeService { Response = """{"event":null,"expense":null}""" })));
+    });
+
+    private static HttpClient As(WebApplicationFactory<Program> factory, HttpClient authed)
+    {
+        var client = factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = authed.DefaultRequestHeaders.Authorization;
+        return client;
+    }
+
+    [Fact]
+    public async Task Supera_el_limite_y_recibe_429_con_Retry_After()
+    {
+        var factory = Limited(2);
+        var (_, authed) = await _factory.CreateUserClientAsync($"{Guid.NewGuid():N}@test.com");
+        var client = As(factory, authed);
+
+        Assert.Equal(HttpStatusCode.OK, (await client.PostAsJsonAsync("/api/parse", new { text = "a" })).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await client.PostAsJsonAsync("/api/parse", new { text = "b" })).StatusCode);
+        var limited = await client.PostAsJsonAsync("/api/parse", new { text = "c" });
+
+        Assert.Equal(HttpStatusCode.TooManyRequests, limited.StatusCode);
+        Assert.True(limited.Headers.Contains("Retry-After"));
+    }
+
+    [Fact]
+    public async Task El_limite_es_por_usuario()
+    {
+        var factory = Limited(1);
+        var (_, fede) = await _factory.CreateUserClientAsync($"{Guid.NewGuid():N}@test.com");
+        var (_, sofi) = await _factory.CreateUserClientAsync($"{Guid.NewGuid():N}@test.com");
+        var fedeClient = As(factory, fede);
+        var sofiClient = As(factory, sofi);
+
+        await fedeClient.PostAsJsonAsync("/api/parse", new { text = "a" });
+        var fedeSecond = await fedeClient.PostAsJsonAsync("/api/parse", new { text = "b" });
+        var sofiFirst = await sofiClient.PostAsJsonAsync("/api/parse", new { text = "a" });
+
+        Assert.Equal(HttpStatusCode.TooManyRequests, fedeSecond.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, sofiFirst.StatusCode);
+    }
+
+    [Fact]
+    public async Task Guardar_lo_confirmado_no_cuenta_para_el_limite()
+    {
+        var factory = Limited(1);
+        var (_, authed) = await _factory.CreateUserClientAsync($"{Guid.NewGuid():N}@test.com");
+        var client = As(factory, authed);
+
+        for (var i = 0; i < 3; i++)
+        {
+            var response = await client.PostAsJsonAsync("/api/entries",
+                new { expense = new { amount = 100, category = "Comida", date = DateTime.Today } });
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
     }
 }
