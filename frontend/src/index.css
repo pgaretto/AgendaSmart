@@ -29,3 +29,70 @@ label {
   display: grid;
   gap: 4px;
 }
+
+main.wide {
+  max-width: 720px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  text-transform: capitalize;
+  font-size: 1.1rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  margin: 12px 0;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  padding: 4px 0;
+  font: inherit;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.calendar-day.is-outside {
+  opacity: 0.45;
+}
+
+.calendar-day.is-today {
+  border-color: currentColor;
+}
+
+.calendar-day.is-selected {
+  background: Highlight;
+  color: HighlightText;
+}
+
+.calendar-dot {
+  min-width: 1.2em;
+  padding: 0 4px;
+  font-size: 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.calendar-events {
+  padding-left: 18px;
+}
