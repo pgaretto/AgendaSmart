@@ -38,11 +38,12 @@ function Register() {
           />
         </label>
         <label>
-          Contraseña
+          Contraseña (mínimo 8 caracteres)
           <input
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            minLength={8}
             required
           />
         </label>
