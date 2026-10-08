@@ -38,7 +38,7 @@ export function useOutbox({ onEntrySaved }) {
   )
 
   const runQueue = useCallback(async () => {
-    if (running.current || !navigator.onLine) return
+    if (running.current || !navigator.onLine || !tokenStorage.get()) return
     running.current = true
     try {
       for (const pending of itemsRef.current.filter((i) => i.status === 'queued')) {
@@ -49,6 +49,8 @@ export function useOutbox({ onEntrySaved }) {
           onEntrySavedRef.current?.()
         } else {
           replace(outcome)
+          // Sesión vencida: el resto de la cola fallaría igual; se retoma al volver a iniciar sesión.
+          if (outcome.error === 'sesion') break
         }
       }
     } finally {

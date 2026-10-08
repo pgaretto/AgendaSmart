@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { backoffDelay, createItem, loadItems, MAX_ATTEMPTS, outboxKey, retryItem, saveItems, userIdFromToken } from './outbox'
+import { backoffDelay, createItem, isRecoverable, loadItems, MAX_ATTEMPTS, outboxKey, retryItem, saveItems, userIdFromToken } from './outbox'
 
 const networkError = () => Object.assign(new Error('red'), { isNetwork: true })
 const wait = vi.fn(async () => {})
@@ -41,6 +41,15 @@ describe('retryItem', () => {
 
     expect(send).toHaveBeenCalledTimes(1)
     expect(result.status).toBe('manual')
+  })
+
+  it('con la sesión vencida (401) pausa el envío sin gastar intentos', async () => {
+    const send = vi.fn().mockRejectedValue(Object.assign(new Error('401'), { status: 401 }))
+
+    const result = await retryItem({ ...createItem('entry', {}), attempts: 2 }, { send, wait })
+
+    expect(send).toHaveBeenCalledTimes(1)
+    expect(result).toMatchObject({ status: 'queued', error: 'sesion', attempts: 2 })
   })
 
   it('espera con backoff exponencial entre intentos y no espera tras el último', async () => {
@@ -93,5 +102,14 @@ describe('almacenamiento', () => {
     expect(userIdFromToken(`h.${payload}.s`)).toBe('42')
     expect(userIdFromToken('basura')).toBeNull()
     expect(userIdFromToken(null)).toBeNull()
+  })
+})
+
+describe('isRecoverable', () => {
+  it('guarda para reintentar solo si es falla de red o sesión vencida', () => {
+    expect(isRecoverable(Object.assign(new Error(), { isNetwork: true }))).toBe(true)
+    expect(isRecoverable(Object.assign(new Error(), { status: 401 }))).toBe(true)
+    expect(isRecoverable(Object.assign(new Error(), { status: 400 }))).toBe(false)
+    expect(isRecoverable(Object.assign(new Error(), { status: 502 }))).toBe(false)
   })
 })

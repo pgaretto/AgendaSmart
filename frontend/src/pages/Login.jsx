@@ -7,7 +7,7 @@ function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { login } = useAuth()
+  const { login, sessionExpired } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
@@ -27,6 +27,9 @@ function Login() {
   return (
     <main>
       <h1>Iniciar sesión</h1>
+      {sessionExpired && (
+        <p role="status">Tu sesión venció. Iniciá sesión de nuevo; lo que estabas enviando se guardó y se reenviará solo.</p>
+      )}
       <form onSubmit={handleSubmit}>
         <label>
           Email

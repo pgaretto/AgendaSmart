@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../services/api'
+import { isRecoverable } from '../services/outbox'
 import {
   fromDateInput,
   fromDateTimeInput,
@@ -54,7 +55,7 @@ function ConfirmModal({ proposal, onClose, onSaved, onNetworkError }) {
       await api.post('/api/entries', payload)
       onSaved()
     } catch (err) {
-      if (err.isNetwork && onNetworkError) {
+      if (isRecoverable(err) && onNetworkError) {
         onNetworkError(payload)
         return
       }

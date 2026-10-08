@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { api } from '../services/api'
+import { isRecoverable } from '../services/outbox'
 import { toLocalNowIso } from '../utils/calendar'
 import ConfirmModal from './ConfirmModal'
 
@@ -25,8 +26,8 @@ function EntryInput({ onSaved, enqueue }) {
         setProposal(result)
       }
     } catch (err) {
-      if (err.isNetwork) {
-        // Sin señal: la frase queda guardada y se envía sola al volver la conexión (RNF-04).
+      if (isRecoverable(err)) {
+        // Sin señal o sesión vencida: la frase queda guardada y se envía sola al poder (RNF-04).
         enqueue('text', request)
         setText('')
       } else {
