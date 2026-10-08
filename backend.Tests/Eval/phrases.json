@@ -217,7 +217,7 @@
  {
   "text": "Fui al kiosco, gasté 1500",
   "amount": 1500,
-  "category": "Comida"
+  "category": "Otros"
  },
  {
   "text": "Hoy gasté $1.500 en un café",
@@ -282,7 +282,7 @@
  {
   "text": "Compré una birra en el kiosco 2200",
   "amount": 2200,
-  "category": "Comida"
+  "category": "Otros"
  },
  {
   "text": "El lunes tengo reunión con el contador a las 15",

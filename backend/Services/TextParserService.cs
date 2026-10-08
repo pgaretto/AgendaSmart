@@ -31,7 +31,7 @@ public class TextParserService : ITextParserService
         - startsAt: resolvé fechas relativas ("mañana", "el martes que viene") a partir de la fecha actual. Si no hay hora, usá 09:00:00.
         - "4 de la tarde" es 16:00; "a las 10" sin otra pista es 10:00.
         - amount: número en pesos sin símbolos ni separadores ("25 mil" es 25000, "2,5 lucas" es 2500).
-        - category: exactamente una de: {{string.Join(", ", Categories)}}. Pasajes, SUBE y combustible son Transporte; cafés y comidas son Comida; médico, dentista y farmacia son Salud; bares, cine y salidas son Salidas; si ninguna aplica, Otros.
+        - category: exactamente una de: {{string.Join(", ", Categories)}}. Pasajes, SUBE y combustible son Transporte; cafés y comidas son Comida; médico, dentista y farmacia son Salud; bares, cine y salidas son Salidas; si ninguna aplica o el gasto es ambiguo (por ejemplo, un kiosco, donde no se sabe qué se compró), Otros.
         - No inventes datos que la frase no contenga.
         """;
 
